@@ -1,0 +1,26 @@
+{
+  "name": "想想和想想妈的购买清单",
+  "short_name": "想想的清单",
+  "description": "想想和想想妈的母婴用品购买清单：按月购买计划、必买提醒、预算统计、价格品牌可编辑、多端实时同步。",
+  "lang": "zh-CN",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f7f8fb",
+  "theme_color": "#4e6ef2",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
