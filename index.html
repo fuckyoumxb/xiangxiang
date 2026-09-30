@@ -77,18 +77,20 @@ svg{display:block;flex:none}
 
 .main{flex:1;min-width:0;padding:0 24px calc(120px + env(safe-area-inset-bottom));max-width:1180px}
 
-/* 玻璃顶栏 */
+/* 玻璃顶栏（状态栏 + 灵动岛 + 标题，融为一条连续玻璃带） */
 .topbar{
   position:sticky;top:0;z-index:50;
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
-  margin-bottom:18px;padding:calc(env(safe-area-inset-top) + 14px) 4px 14px;
+  margin-bottom:18px;padding:14px 4px 14px;
   background:rgba(246,247,251,.66);
   -webkit-backdrop-filter:blur(28px) saturate(180%);backdrop-filter:blur(28px) saturate(180%);
   border-bottom:1px solid rgba(255,255,255,.55);
 }
+.topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .topbar h1{font-size:27px;margin:0;letter-spacing:-.6px;font-weight:800}
 .topbar-sub{font-size:12.5px;color:var(--ink3);margin-top:3px}
 .topbar-right{display:flex;align-items:center;gap:10px}
+/* 状态栏（仅移动端显示，承载灵动岛与时间/电池；桌面隐藏） */
+.statusbar{display:none}
 .view{display:none}
 .view.active{display:block;animation:viewIn .26s cubic-bezier(.32,.72,0,1)}
 @keyframes viewIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -298,7 +300,19 @@ svg{display:block;flex:none}
 @media (max-width:768px){
   .sidebar{display:none}
   .main{padding:0 16px calc(118px + env(safe-area-inset-bottom))}
-  .topbar{margin-bottom:16px;padding:calc(env(safe-area-inset-top) + 12px) 4px 12px}
+  .topbar{margin:0 -16px 16px;padding:env(safe-area-inset-top) 16px 12px}
+  .statusbar{
+    display:flex;align-items:center;justify-content:space-between;
+    height:44px;position:relative;margin-bottom:4px;
+  }
+  .sb-time{font-size:15px;font-weight:600;letter-spacing:.3px;color:var(--ink);font-variant-numeric:tabular-nums}
+  .sb-island{
+    position:absolute;left:50%;top:6px;transform:translateX(-50%);
+    width:120px;height:33px;border-radius:19px;background:#000;
+    box-shadow:0 1px 4px rgba(0,0,0,.4), inset 0 0 0 1px rgba(255,255,255,.05);
+  }
+  .sb-indicators{display:flex;align-items:center;gap:7px;color:var(--ink)}
+  .sb-indicators svg{flex:none;display:block}
   .topbar h1{font-size:25px}
   .item-list{grid-template-columns:1fr}
   .form-grid{grid-template-columns:1fr}
@@ -374,12 +388,23 @@ svg{display:block;flex:none}
 
   <main class="main">
     <div class="topbar">
-      <div>
-        <h1 id="pageTitle">总览</h1>
-        <div class="topbar-sub" id="pageSub">按「产前囤货 → 待产住院 → 产后恢复 → 宝宝0-1岁」四阶段准备</div>
+      <div class="statusbar">
+        <span class="sb-time" id="sbTime">9:41</span>
+        <div class="sb-island" aria-hidden="true"></div>
+        <div class="sb-indicators">
+          <svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor" aria-hidden="true"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="7" rx="1"/><rect x="10" y="2" width="3" height="10" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
+          <svg width="17" height="12" viewBox="0 0 17 12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M1 4.4A11 11 0 0 1 16 4.4"/><path d="M3.5 6.8a7 7 0 0 1 10 0"/><path d="M6 9.1a3.4 3.4 0 0 1 5 0"/><circle cx="8.5" cy="10.7" r="1" fill="currentColor" stroke="none"/></svg>
+          <svg width="27" height="13" viewBox="0 0 27 13" fill="none" aria-hidden="true"><rect x="0.6" y="0.6" width="22" height="11.8" rx="3.4" stroke="currentColor" stroke-opacity=".4"/><rect x="2" y="2" width="18" height="9" rx="2" fill="currentColor"/><rect x="24" y="4" width="2.2" height="5" rx="1" fill="currentColor" fill-opacity=".5"/></svg>
+        </div>
       </div>
-      <div class="topbar-right">
-        <span class="sync-pill" id="syncPillTop"><i class="sync-dot"></i><span id="syncTextTop">正在连接…</span></span>
+      <div class="topbar-inner">
+        <div>
+          <h1 id="pageTitle">总览</h1>
+          <div class="topbar-sub" id="pageSub">按「产前囤货 → 待产住院 → 产后恢复 → 宝宝0-1岁」四阶段准备</div>
+        </div>
+        <div class="topbar-right">
+          <span class="sync-pill" id="syncPillTop"><i class="sync-dot"></i><span id="syncTextTop">正在连接…</span></span>
+        </div>
       </div>
     </div>
 
@@ -1525,6 +1550,8 @@ svg{display:block;flex:none}
     bindForm();
     bindFormCache();
     switchView('overview');
+    (function tickClock(){ var d=new Date(), h=d.getHours(), m=('0'+d.getMinutes()).slice(-2), el=document.getElementById('sbTime'); if(el) el.textContent=h+':'+m; })();
+    setInterval(function(){ var d=new Date(), h=d.getHours(), m=('0'+d.getMinutes()).slice(-2), el=document.getElementById('sbTime'); if(el) el.textContent=h+':'+m; }, 10000);
     renderOptions().then(function () {
       restoreFormCache();
       if (!db) {
