@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" name="viewport">
 <title>想想和想想妈的购买清单</title>
 <link rel="icon" type="image/png" href="icon.png">
 <link rel="manifest" href="manifest.json">
@@ -80,10 +80,12 @@ svg{display:block;flex:none}
 /* 玻璃顶栏（状态栏 + 灵动岛 + 标题，融为一条连续玻璃带） */
 .topbar{
   position:sticky;top:0;z-index:50;
-  margin-bottom:18px;padding:14px 4px 14px;
+  margin-bottom:18px;padding:14px 18px 14px;
   background:rgba(246,247,251,.66);
   -webkit-backdrop-filter:blur(28px) saturate(180%);backdrop-filter:blur(28px) saturate(180%);
-  border-bottom:1px solid rgba(255,255,255,.55);
+  border:1px solid rgba(255,255,255,.55);
+  border-radius:22px;
+  box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,.55);
 }
 .topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .topbar h1{font-size:27px;margin:0;letter-spacing:-.6px;font-weight:800}
@@ -175,7 +177,7 @@ svg{display:block;flex:none}
 /* 已购品牌 */
 .brand-row{display:flex;align-items:center;gap:6px;margin-top:8px}
 .brand-tag{font-size:11px;font-weight:600;color:var(--brand-dark);background:var(--brand-soft);padding:4px 8px;border-radius:8px;flex:none}
-.brand-input{flex:1;min-width:0;height:36px;padding:0 10px;border:1px solid var(--glass-border);border-radius:10px;background:rgba(255,255,255,.80);outline:none;font-size:13px;color:var(--ink);box-shadow:inset 0 1px 0 rgba(255,255,255,.60)}
+.brand-input{flex:1;min-width:0;height:38px;padding:0 10px;border:1px solid var(--glass-border);border-radius:10px;background:rgba(255,255,255,.80);outline:none;font-size:16px;color:var(--ink);box-shadow:inset 0 1px 0 rgba(255,255,255,.60)}
 .brand-input::placeholder{color:#aeb0b8;font-size:12.5px}
 .brand-input:focus{border-color:var(--brand);background:#fff;box-shadow:0 0 0 3px var(--brand-soft)}
 .brand-input.saved{border-color:var(--brand);background:var(--brand-soft)}
@@ -281,12 +283,22 @@ svg{display:block;flex:none}
 /* 可编辑价格 / 品牌 */
 .price-box{display:inline-flex;align-items:center;gap:2px;background:rgba(255,255,255,.85);border:1px solid var(--glass-border);border-radius:11px;padding:0 9px;box-shadow:inset 0 1px 0 rgba(255,255,255,.60)}
 .price-box .rmb{font-size:12px;color:var(--ink2);font-weight:600}
-.price-input{width:64px;border:none;outline:none;background:transparent;text-align:right;font-size:14px;font-weight:700;color:var(--ink);padding:6px 0}
+.price-input{width:64px;border:none;outline:none;background:transparent;text-align:right;font-size:16px;font-weight:700;color:var(--ink);padding:6px 0}
 .price-input::-webkit-inner-spin-button,.price-input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 .price-input[type=number]{-moz-appearance:textfield}
-.brand-input-mini{width:112px;height:32px;padding:0 9px;border:1px solid var(--glass-border);border-radius:9px;background:rgba(255,255,255,.85);outline:none;font-size:12.5px;color:var(--ink);text-align:right;box-shadow:inset 0 1px 0 rgba(255,255,255,.60)}
+.brand-input-mini{width:118px;height:34px;padding:0 9px;border:1px solid var(--glass-border);border-radius:9px;background:rgba(255,255,255,.85);outline:none;font-size:16px;color:var(--ink);text-align:right;box-shadow:inset 0 1px 0 rgba(255,255,255,.60)}
 .brand-input-mini:focus{border-color:var(--brand);background:#fff}
 .brand-input-mini::placeholder{color:#c6ccdb}
+
+/* 可编辑数量 / 月份折叠 */
+.qty-input{width:80px;height:34px;padding:0 8px;border:1px solid var(--glass-border);border-radius:9px;background:rgba(255,255,255,.85);outline:none;font-size:16px;color:var(--ink);text-align:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.60)}
+.qty-input:focus{border-color:var(--brand);background:#fff}
+.qty-wrap{display:inline-flex;align-items:center}
+.m-rec{font-size:12px;color:var(--ink3)}
+.month-head{cursor:pointer;-webkit-user-select:none;user-select:none}
+.month-arrow{color:var(--ink3);transition:transform .22s cubic-bezier(.32,.72,0,1);flex:none}
+.month-group.collapsed .month-arrow{transform:rotate(-90deg)}
+.month-group.collapsed .month-items{display:none}
 
 /* 进度指示点 */
 .stage-dot{width:9px;height:9px;border-radius:50%;flex:none}
@@ -300,7 +312,7 @@ svg{display:block;flex:none}
 @media (max-width:768px){
   .sidebar{display:none}
   .main{padding:0 16px calc(118px + env(safe-area-inset-bottom))}
-  .topbar{margin:0 -16px 16px;padding:env(safe-area-inset-top) 16px 12px}
+  .topbar{margin:0 -16px 16px;padding:env(safe-area-inset-top) 16px 12px;border-radius:0 0 22px 22px}
   .statusbar{
     display:flex;align-items:center;justify-content:space-between;
     height:44px;position:relative;margin-bottom:4px;
@@ -883,14 +895,14 @@ svg{display:block;flex:none}
     var prio = prioOf(r);
     var price = budgetOf(r);
     var bought = r['已购品牌'] || '';
-    var meta = [];
-    if (r['数量']) meta.push(escapeHtml(r['数量']));
-    if (r['推荐品牌']) meta.push('推荐 ' + escapeHtml(r['推荐品牌']));
+    var meta = '';
+    if (r['数量']) meta += '<input class="qty-input" type="text" data-act="qty" data-id="' + escapeHtml(id) + '" value="' + escapeHtml(r['数量']) + '" placeholder="数量" aria-label="数量规格">';
+    if (r['推荐品牌']) meta += '<span class="m-rec">推荐 ' + escapeHtml(r['推荐品牌']) + '</span>';
     return '<div class="m-item' + (done ? ' is-done' : '') + '">' +
       '<button class="ck' + (done ? ' on' : '') + '" data-act="toggle" data-id="' + escapeHtml(id) + '" aria-label="标记已备">' + svgCheck() + '</button>' +
       '<div class="m-item-main">' +
         '<div class="m-item-name">' + escapeHtml(r['物品名称'] || '') + '<span class="tag ' + (PRIO_CLS[prio] || 'sug') + '">' + escapeHtml(prio) + '</span></div>' +
-        (meta.length ? '<div class="m-item-meta">' + meta.join(' · ') + '</div>' : '') +
+        (meta ? '<div class="m-item-meta">' + meta + '</div>' : '') +
       '</div>' +
       '<div class="m-item-right">' +
         '<div class="price-box"><span class="rmb">¥</span><input class="price-input" type="number" min="0" step="1" inputmode="decimal" data-act="price" data-id="' + escapeHtml(id) + '" value="' + price + '" aria-label="预算价格"></div>' +
@@ -911,7 +923,8 @@ svg{display:block;flex:none}
         '<div class="month-head"><span class="month-dot" style="background:' + STAGE_COLORS[g.stage] + '"></span>' +
           '<span class="month-name">' + escapeHtml(monthLabel(g.offset)) + '</span>' +
           '<span class="month-stage">' + escapeHtml(g.stage) + '</span>' +
-          '<span class="month-count">' + done + '/' + rows.length + ' 项已备</span></div>' +
+          '<span class="month-count">' + done + '/' + rows.length + ' 项已备</span>' +
+          '<svg class="month-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></div>' +
         '<div class="month-items">' + (rows.length ? rows.map(monthItem).join('') : '<div class="month-empty">本月暂无安排</div>') + '</div>' +
       '</div>';
     }).join('');
@@ -1061,7 +1074,7 @@ svg{display:block;flex:none}
     var bought = r['已购品牌'] || '';
     var rec = r['推荐品牌'] || '';
     var meta = [];
-    if (r['数量']) meta.push('<span>' + escapeHtml(r['数量']) + '</span>');
+    if (r['数量']) meta.push('<span class="qty-wrap"><input class="qty-input" type="text" data-act="qty" data-id="' + escapeHtml(id) + '" value="' + escapeHtml(r['数量']) + '" placeholder="数量" aria-label="数量规格"></span>');
     if (rec && !done) meta.push('<span>推荐 ' + escapeHtml(rec) + '</span>');
     if (r['分类']) meta.push('<span>' + escapeHtml(r['分类']) + '</span>');
     meta.push('<span class="stag" style="background:' + (STAGE_COLORS[st] + '1f') + ';color:' + STAGE_COLORS[st] + '">' + escapeHtml(st) + '</span>');
@@ -1274,6 +1287,27 @@ svg{display:block;flex:none}
       });
   }
 
+  function saveQty(id, input) {
+    var row = findRow(id);
+    if (!row || !input) return;
+    var val = (input.value || '').trim();
+    var prev = row['数量'] || '';
+    if (val === prev) return;
+    row['数量'] = val;
+    input.value = val;
+    if (!db) { setSync('off'); toast('离线模式：数量只存本机，联网后再改一次'); return; }
+    setSync('busy');
+    db.updateRecord({ databaseId: DATABASE_ID, recordId: id, properties: { '数量': { text: val } } })
+      .then(function () { setSync('online'); toast('数量规格已更新'); })
+      .catch(function (err) {
+        console.error('[database] 数量保存失败:', err);
+        row['数量'] = prev;
+        input.value = prev;
+        setSync('off');
+        showError('数量没保存上，已回滚，请检查网络后重试。');
+      });
+  }
+
   function bindListActions() {
     document.addEventListener('click', function (e) {
       var el = closestAct(e.target);
@@ -1283,12 +1317,23 @@ svg{display:block;flex:none}
       if (act === 'toggle') { e.preventDefault(); toggleDone(id); }
       else if (act === 'del') { e.preventDefault(); deleteItem(id, el); }
     });
+    var ml = $('#monthList');
+    if (ml) {
+      ml.addEventListener('click', function (e) {
+        var t = e.target;
+        while (t && t !== ml && !(t.classList && t.classList.contains('month-head'))) t = t.parentNode;
+        if (t && t.classList && t.classList.contains('month-head')) {
+          t.parentNode.classList.toggle('collapsed');
+        }
+      });
+    }
     document.addEventListener('change', function (e) {
       var el = closestAct(e.target);
       if (!el) return;
       var act = el.getAttribute('data-act');
       if (act === 'brand') saveBrand(el.getAttribute('data-id'), el);
       else if (act === 'price') savePrice(el.getAttribute('data-id'), el);
+      else if (act === 'qty') saveQty(el.getAttribute('data-id'), el);
     });
   }
 
