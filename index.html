@@ -722,6 +722,8 @@ svg{display:block;flex:none}
     keyword: '',
     lastSync: 0
   };
+  // 记忆「按月要买清单」每个月份的折叠状态（key=阶段名），重渲染后保持
+  var COLLAPSED = Object.create(null);
 
   /* ============ 工具层 ============ */
   function $(sel) { return document.querySelector(sel); }
@@ -919,7 +921,7 @@ svg{display:block;flex:none}
     box.innerHTML = MONTH_STAGE.map(function (g) {
       var rows = STATE.rows.filter(function (r) { return stageOf(r) === g.stage; });
       var done = rows.filter(isDone).length;
-      return '<div class="month-group">' +
+      return '<div class="month-group' + (COLLAPSED[g.stage] ? ' collapsed' : '') + '">' +
         '<div class="month-head"><span class="month-dot" style="background:' + STAGE_COLORS[g.stage] + '"></span>' +
           '<span class="month-name">' + escapeHtml(monthLabel(g.offset)) + '</span>' +
           '<span class="month-stage">' + escapeHtml(g.stage) + '</span>' +
@@ -1319,12 +1321,15 @@ svg{display:block;flex:none}
     });
     var ml = $('#monthList');
     if (ml) {
+      // 用事件委托绑在容器上，元素被重渲染也不失效；折叠状态记入 COLLAPSED 以便刷新后保持
       ml.addEventListener('click', function (e) {
-        var t = e.target;
-        while (t && t !== ml && !(t.classList && t.classList.contains('month-head'))) t = t.parentNode;
-        if (t && t.classList && t.classList.contains('month-head')) {
-          t.parentNode.classList.toggle('collapsed');
-        }
+        var head = e.target.closest ? e.target.closest('.month-head') : null;
+        if (!head) return;
+        var group = head.parentNode;
+        var stageEl = head.querySelector('.month-stage');
+        var stage = stageEl ? stageEl.textContent : '';
+        var nowCollapsed = group.classList.toggle('collapsed');
+        if (nowCollapsed) COLLAPSED[stage] = true; else delete COLLAPSED[stage];
       });
     }
     document.addEventListener('change', function (e) {
