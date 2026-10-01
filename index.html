@@ -139,9 +139,9 @@ svg{display:block;flex:none}
 .chip .cnt{font-size:11.5px;opacity:.7}
 
 /* 物品网格 */
-.item-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px}
+.item-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(290px,100%),1fr));gap:12px}
 .item-card{
-  display:flex;gap:12px;background:rgba(255,255,255,.82);
+  display:flex;gap:12px;min-width:0;max-width:100%;background:rgba(255,255,255,.82);
   -webkit-backdrop-filter:blur(14px) saturate(160%);backdrop-filter:blur(14px) saturate(160%);
   border:1px solid var(--glass-border);border-radius:18px;padding:14px;
   box-shadow:0 4px 16px rgba(31,35,41,.06), inset 0 1px 0 rgba(255,255,255,.50);transition:.18s;position:relative;
@@ -161,7 +161,7 @@ svg{display:block;flex:none}
 .item-name{font-weight:600;font-size:15px;word-break:break-word;display:flex;align-items:center;gap:6px;flex-wrap:wrap;letter-spacing:-.2px}
 .item-meta{font-size:12.5px;color:var(--ink3);margin-top:4px;display:flex;gap:8px;flex-wrap:wrap}
 .item-note{font-size:12.5px;color:var(--ink2);margin-top:7px;background:rgba(118,118,128,.08);padding:7px 10px;border-radius:10px;line-height:1.6}
-.item-right{display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;gap:8px;flex:none}
+.item-right{display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;gap:8px;flex:none;min-width:0;max-width:40%}
 .item-price{font-size:14px;font-weight:700;color:var(--ink)}
 .item-price.zero{color:var(--ink3);font-weight:500}
 .del-btn{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;color:#aeb0b8;transition:.15s}
@@ -280,7 +280,7 @@ svg{display:block;flex:none}
 .m-item-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex:none}
 .month-empty{padding:14px 15px;color:var(--ink3);font-size:13px}
 /* 可编辑价格 / 品牌 */
-.price-box{display:inline-flex;align-items:center;gap:2px;background:rgba(255,255,255,.85);border:1px solid var(--glass-border);border-radius:11px;padding:0 9px;box-shadow:inset 0 1px 0 rgba(255,255,255,.60)}
+.price-box{display:inline-flex;align-items:center;gap:2px;max-width:100%;background:rgba(255,255,255,.85);border:1px solid var(--glass-border);border-radius:11px;padding:0 9px;box-shadow:inset 0 1px 0 rgba(255,255,255,.60)}
 .price-box .rmb{font-size:12px;color:var(--ink2);font-weight:600}
 .price-input{width:56px;border:none;outline:none;background:transparent;text-align:right;font-size:16px;font-weight:700;color:var(--ink);padding:6px 0}
 .price-input::-webkit-inner-spin-button,.price-input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
@@ -290,7 +290,7 @@ svg{display:block;flex:none}
 .brand-input-mini::placeholder{color:#c6ccdb}
 
 /* 可编辑数量 / 月份折叠 */
-.qty-input{width:80px;height:34px;padding:0 8px;border:1px solid var(--glass-border);border-radius:9px;background:rgba(255,255,255,.85);outline:none;font-size:16px;color:var(--ink);text-align:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.60)}
+.qty-input{width:64px;height:30px;padding:0 6px;border:1px solid var(--glass-border);border-radius:9px;background:rgba(255,255,255,.85);outline:none;font-size:16px;color:var(--ink);text-align:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.60)}
 .qty-input:focus{border-color:var(--brand);background:#fff}
 .qty-wrap{display:inline-flex;align-items:center}
 .m-rec{font-size:12px;color:var(--ink3)}
@@ -313,7 +313,8 @@ svg{display:block;flex:none}
   .main{padding:0 16px calc(118px + env(safe-area-inset-bottom))}
   .topbar{margin:0 -16px 16px;padding:env(safe-area-inset-top) 16px 12px;border-radius:0 0 22px 22px}
   .topbar h1{font-size:25px}
-  .item-list{grid-template-columns:1fr}
+  .item-list{grid-template-columns:minmax(0,1fr)}
+  .item-card{overflow:hidden}
   .form-grid{grid-template-columns:1fr}
   .due-num{font-size:38px}
   /* 浮动玻璃底部标签栏 */
